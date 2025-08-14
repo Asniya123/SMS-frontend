@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ESNext", 
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true, 
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "outDir": "dist",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite"]
+  },
+  "include": ["src", "vite-env.d.ts"]
+}
