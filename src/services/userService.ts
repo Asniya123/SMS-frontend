@@ -1,25 +1,53 @@
-import Cookies from "js-cookie";
-import API from "../api/studentInstance";
-import { AxiosError } from "axios";
+import studentInstance from '@/api/studentInstance'
+import { API_ENDPOINTS } from '@/constant/url'
+import { LoginCredentials, LoginResponse, User } from '@/interface/user'
+import Cookies from 'js-cookie'
 
-const COOKIE_EXPIRY_DAYS = 7;
+class UserService {
+  async login(credentials: LoginCredentials): Promise<User> {
+    const response = await studentInstance.post<LoginResponse>(
+      API_ENDPOINTS.AUTH.LOGIN,
+      credentials
+    )
+    
+    const { user, token, refreshToken } = response.data
+    
+    // Store tokens in cookies
+    Cookies.set('authToken', token, { expires: 7 })
+    Cookies.set('refreshToken', refreshToken, { expires: 30 })
+    
+    return user
+  }
 
-export async function loginUser(email: string, password: string): Promise<{
-    userId: string | null;
-    accessToken: string | null;
-    refreshToken: string | null;
-  }> {
+  async logout(): Promise<void> {
     try {
-        console.log("Sending request with:", { email, password });
-        const response = await API.post("/login", { email, password });
-        console.log("Login successful:", response.data);
-        return {
-            userId: response.data.userId || null,
-            accessToken: response.data.accessToken || null,
-            refreshToken: response.data.refreshToken || null,
-          };
-        } catch (error: any) {
-          console.error("Login error:", error.response?.data || error.message);
-          throw new Error(error.response?.data?.message || "Login failed. Please try again.");
-        }
-};
+      await studentInstance.post(API_ENDPOINTS.AUTH.LOGOUT)
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      // Remove tokens from cookies
+      Cookies.remove('authToken')
+      Cookies.remove('refreshToken')
+    }
+  }
+
+  async getProfile(): Promise<User> {
+    const response = await studentInstance.get(API_ENDPOINTS.STUDENT.PROFILE)
+    return response.data
+  }
+
+  async updateProfile(userData: Partial<User>): Promise<User> {
+    const response = await studentInstance.put(API_ENDPOINTS.STUDENT.PROFILE, userData)
+    return response.data
+  }
+
+  isAuthenticated(): boolean {
+    return !!Cookies.get('authToken')
+  }
+
+  getToken(): string | undefined {
+    return Cookies.get('authToken')
+  }
+}
+
+export const userService = new UserService()
