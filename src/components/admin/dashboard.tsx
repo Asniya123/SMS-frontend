@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '@/redux/store'
 import { getDashboardStats, logoutAdmin } from '@/redux/slice/adminSlice'
-import { Users, BookOpen, GraduationCap, LogOut, User, Settings } from 'lucide-react'
+import { Users, BookOpen, GraduationCap, LogOut, User } from 'lucide-react'
 
 const AdminDashboard = () => {
   const dispatch = useDispatch<AppDispatch>()
