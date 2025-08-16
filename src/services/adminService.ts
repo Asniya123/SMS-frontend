@@ -9,7 +9,7 @@ class AdminService {
       API_ENDPOINTS.ADMIN.LOGIN,
       credentials
     );
-    const { admin, token, refreshToken } = response.data;
+    const { token, refreshToken } = response.data;
     localStorage.setItem('adminToken', token);
     localStorage.setItem('adminRefreshToken', refreshToken);
     return response.data;

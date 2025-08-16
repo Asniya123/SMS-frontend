@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { initializeAdmin, logoutAdmin } from '../../redux/slice/adminSlice';
+import { initializeAdmin } from '../../redux/slice/adminSlice';
 import { LogOut, BookOpen, Users, BarChart3, Menu, X } from 'lucide-react';
 import CourseManagement from '../../Pages/admin/CourseManagement';
 import UserManagement from '../../Pages/admin/UserManagement';

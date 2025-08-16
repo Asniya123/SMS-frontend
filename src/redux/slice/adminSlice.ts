@@ -241,9 +241,13 @@ const adminSlice = createSlice({
         state.users = action.payload.users;
         state.totalPages = Math.ceil(action.payload.total / 10);
       })
-      .addCase(blockUnblock.fulfilled, (state) => {
-        // User status updated
-      })
+     .addCase(blockUnblock.fulfilled, (state, action) => {
+  const updatedUser = action.payload
+  state.users = state.users.map(user =>
+    user._id === updatedUser._id ? updatedUser : user
+  )
+})
+
       .addCase(getPendingLeaves.pending, (state) => {
         state.loading = true;
         state.error = null;

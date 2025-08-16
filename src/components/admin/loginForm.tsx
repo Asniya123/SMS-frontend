@@ -39,12 +39,13 @@ const AdminLoginForm = () => {
     }
 
     try {
-      await dispatch(loginAdmin(formData)).unwrap()
-      toast.success('Admin login successful!')
-      // Remove manual navigation - let the useEffect in AdminLoginPage handle it
-    } catch (error: any) {
-      toast.error(error || 'Login failed')
-    }
+  await dispatch(loginAdmin(formData)).unwrap()
+  toast.success('Admin login successful!')
+  navigate('/admin/dashboard')   // 👈 use navigate here
+} catch (error: any) {
+  toast.error(error || 'Login failed')
+}
+
   }
 
   return (
