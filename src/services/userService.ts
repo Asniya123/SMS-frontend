@@ -10,13 +10,24 @@ class UserService {
       credentials
     )
     
-    const { user, token, refreshToken } = response.data
+    const { accessToken, refreshToken, user } = response.data
     
     // Store tokens in cookies
-    Cookies.set('authToken', token, { expires: 7 })
+    Cookies.set('authToken', accessToken, { expires: 7 })
     Cookies.set('refreshToken', refreshToken, { expires: 30 })
     
-    return user
+    // Convert backend user format to frontend User format
+    const frontendUser: User = {
+      id: user?.id || '',
+      email: user?.email || credentials.email,
+      firstName: user?.name?.split(' ')[0] || 'Student',
+      lastName: user?.name?.split(' ').slice(1).join(' ') || 'User',
+      role: 'student',
+      createdAt: user?.createdAt || new Date().toISOString(),
+      updatedAt: user?.updatedAt || new Date().toISOString()
+    }
+    
+    return frontendUser
   }
 
   async logout(): Promise<void> {

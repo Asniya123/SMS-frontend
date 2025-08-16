@@ -15,9 +15,20 @@ export interface LoginCredentials {
 }
 
 export interface LoginResponse {
-  user: User
-  token: string
+  message: string
+  userId: string
+  accessToken: string
   refreshToken: string
+  user: {
+    id: string
+    email: string
+    name: string
+    mobile: number
+    isVerified: boolean
+    is_blocked: boolean
+    createdAt: string
+    updatedAt: string
+  } | null
 }
 
 export interface ApiResponse<T> {
